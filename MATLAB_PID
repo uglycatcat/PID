@@ -1,0 +1,38 @@
+%初始化变量
+syms kp ki kd; 
+syms dt intergral;
+syms derivative;
+syms input output preError;
+kp=0.3;
+ki=0.1;
+kd=0.1;
+dt=1;
+integral=0;
+input=0;
+preError=0;
+output=100;
+%定义图像的坐标，并且初始化数值数组
+time=[1:1:300];
+value=zeros(size(time));
+value(1)=input;
+%绘制图像
+figure;
+%进入PID循环
+for i=2:length(time)
+    error=output-input;
+    integral=integral+error;
+    derivative=(error-preError)/dt;
+    input=input+(kp*error+ki*integral+kd*derivative);
+    value(i)=input;
+    preError=error;
+    %绘制图像（只绘制计算部分）
+    plot(time(1:i),value(1:i));
+    title("PID");
+    xlabel("time");
+    ylabel("value");
+    grid on;
+    %绘制间隔
+    pause(0.1);
+    
+end
+
