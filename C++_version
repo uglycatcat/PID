@@ -1,0 +1,23 @@
+#include <iostream>
+#include <windows.h>
+#include <iomanip>
+double kp, ki, kd;
+double error, derivative, preError = 0, integral = 0;
+int dt = 1;
+double setPoint = 100, startPoint = 0;
+int main()
+{
+    std::cin >> kp >> ki >> kd;
+    while (startPoint != setPoint)
+    {
+        error = setPoint - startPoint;
+        derivative = (error - preError) / dt;
+        integral += error;
+        startPoint += (kp * error + kd * derivative + ki * integral);
+        std::cout << std::setiosflags(std::ios::fixed) << std::setprecision(5);
+        std::cout << startPoint << std::endl;
+        preError = error;
+        Sleep(dt * 1000);
+    }
+    return 0;
+}
